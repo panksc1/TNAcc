@@ -49,7 +49,7 @@ namespace API.Controllers
         }
 
 
-        [HttpGet("/payables/{id}")]
+        [HttpGet("payables/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PayableDto>> GetPayableAsync(int id)
@@ -79,7 +79,7 @@ namespace API.Controllers
         }
 
 
-        [HttpGet("/receivables/{id}")]
+        [HttpGet("receivables/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ReceivableDto>> GetReceivableAsync(int id)
@@ -108,7 +108,7 @@ namespace API.Controllers
             return Ok(await this._venuesRepo.ListAllAsync());
         }
 
-        [HttpGet("gigs")]
+        [HttpGet]
         public async Task<ActionResult<Pagination<GigDto>>> GetGigsAsync(
             [FromQuery]GigSpecParams gigParams)
         {
@@ -123,7 +123,7 @@ namespace API.Controllers
         }
 
 
-        [HttpGet("/gigs/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GigDto>> GetGigAsync(int id)
