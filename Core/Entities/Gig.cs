@@ -6,5 +6,6 @@ namespace Core.Entities
         public decimal Pay { get; set; }
         public int VenueId { get; set; }
         public Venue Venue { get; set; }
+        public string Band { get; set; }
     }
 }

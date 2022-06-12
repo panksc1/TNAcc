@@ -12,23 +12,31 @@ public class ReceivablesWithGigsAndEntitiesSpecification : BaseSpecification<Rec
         {
             AddInclude(x => x.Gig);
             AddInclude(x => x.Entity);
-            AddOrderByDescending(x => x.DateReceived);
+            
             ApplyPaging(paymentParams.PageSize * (paymentParams.PageIndex - 1), paymentParams.PageSize);
 
             if(!string.IsNullOrEmpty(paymentParams.Sort))
             {
                 switch(paymentParams.Sort)
                 {
-                    case "priceAsc":
-                        AddOrderBy(p => p.Amount);
+                    case "payAsc":
+                        AddOrderBy(p => p.AmountDue);
                         break;
-                    case "priceDesc":
-                        AddOrderByDescending(p => p.Amount);
+                    case "payDesc":
+                        AddOrderByDescending(p => p.AmountDue);
+                        break;
+                    case "dateAsc":
+                        AddOrderBy(p => p.DateReceived);
+                        break;
+                    case "dateDesc":
+                        AddOrderByDescending(p => p.DateReceived);
                         break;
                     default:
                         AddOrderByDescending(n => n.DateReceived);
                         break;
                 }
+            } else {
+                AddOrderByDescending(x => x.DateReceived);
             }
         }
 

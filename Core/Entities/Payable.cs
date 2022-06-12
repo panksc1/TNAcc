@@ -2,7 +2,8 @@ namespace Core.Entities
 {
     public class Payable : BaseEntity
     {
-        public decimal Amount { get; set; }
+        public decimal AmountDue { get; set; }
+        public decimal AmountPaid { get; set; }
         public DateTime DatePaid { get; set; }
         public int EntityId { get; set; }
         public Entity Entity { get; set; }

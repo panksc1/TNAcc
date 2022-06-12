@@ -55,7 +55,8 @@ namespace Infrastructure.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Pay = table.Column<double>(type: "decimal(18,2)", nullable: false),
-                    VenueId = table.Column<int>(type: "INTEGER", nullable: false)
+                    VenueId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Band = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -74,7 +75,8 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Amount = table.Column<double>(type: "decimal(18,2)", nullable: false),
+                    AmountDue = table.Column<double>(type: "decimal(18,2)", nullable: false),
+                    AmountPaid = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     DatePaid = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EntityId = table.Column<int>(type: "INTEGER", nullable: false),
                     GigId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -102,7 +104,8 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Amount = table.Column<double>(type: "decimal(18,2)", nullable: false),
+                    AmountDue = table.Column<double>(type: "decimal(18,2)", nullable: false),
+                    AmountPaid = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     DateReceived = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EntityId = table.Column<int>(type: "INTEGER", nullable: false),
                     GigId = table.Column<int>(type: "INTEGER", nullable: false)

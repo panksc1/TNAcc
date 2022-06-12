@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AccContext))]
-    [Migration("20220520035140_InitialCreate")]
+    [Migration("20220527042750_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,10 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Band")
+                        .HasMaxLength(120)
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -82,7 +86,10 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Amount")
+                    b.Property<double>("AmountDue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double>("AmountPaid")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("DatePaid")
@@ -109,7 +116,10 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Amount")
+                    b.Property<double>("AmountDue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double>("AmountPaid")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("DateReceived")

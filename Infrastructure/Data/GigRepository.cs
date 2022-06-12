@@ -55,5 +55,16 @@ namespace Infrastructure.Data
                 .Include(r => r.Entity)
                 .ToListAsync();
         }
+
+        public async Task<Venue> GetVenueByIdAsync(int id) {
+            return await this._context.Venues
+                .FirstOrDefaultAsync(v => v.Id == id);
+        }
+
+        public async Task<IReadOnlyList<Venue>> GetVenuesAsync() {
+            return await this._context.Venues
+                .OrderBy(v => v.Name)
+                .ToListAsync();
+        }
     }
 }

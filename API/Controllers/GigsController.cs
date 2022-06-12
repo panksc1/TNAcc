@@ -102,10 +102,14 @@ namespace API.Controllers
         }
 
         [HttpGet("venues")]
-        public async Task<ActionResult<IReadOnlyList<Entity>>> GetVenues()
+        public async Task<ActionResult<Pagination<Venue>>> GetVenues(
+            [FromQuery]VenueSpecParams venueParams)
         {
+            var spec = new VenuesSpecification(venueParams);
+            var totalItems = await this._venuesRepo.CountAsync(spec);
+
             // Wrap in Ok() to allow us to return and IReadOnlyList
-            return Ok(await this._venuesRepo.ListAllAsync());
+            return Ok(await this._venuesRepo.ListAsync(spec));
         }
 
         [HttpGet]

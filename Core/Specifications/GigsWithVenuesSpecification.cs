@@ -6,11 +6,16 @@ namespace Core.Specifications
     {
         public GigsWithVenuesSpecification(GigSpecParams gigParams)
             : base(x =>
-                (!gigParams.VenueId.HasValue || x.VenueId == gigParams.VenueId) 
+                (string.IsNullOrEmpty(gigParams.Search) ||
+                x.Venue.Name.ToLower().Contains(gigParams.Search) ||
+                x.Band.ToLower().Contains(gigParams.Search)) &&
+                (!gigParams.VenueId.HasValue || x.VenueId == gigParams.VenueId) &&
+                (!gigParams.Month.HasValue || x.Date.Month == gigParams.Month) &&
+                (!gigParams.Year.HasValue || x.Date.Year == gigParams.Year) && 
+                (string.IsNullOrEmpty(gigParams.Band) || x.Band.ToLower().Contains(gigParams.Band.ToLower()))
             )
         {
             AddInclude(x => x.Venue);
-            AddOrderByDescending(x => x.Date);
             ApplyPaging(gigParams.PageSize * (gigParams.PageIndex - 1), gigParams.PageSize);
 
             if (!string.IsNullOrEmpty(gigParams.Sort))
@@ -29,10 +34,20 @@ namespace Core.Specifications
                     case "payDesc":
                         AddOrderByDescending(p => p.Pay);
                         break;
+                    case "venue":
+                        AddOrderBy(p => p.Venue.Name);
+                        break;
+                    case "band":
+                        AddOrderBy(p => p.Band);
+                        break;
                     default:
                         AddOrderByDescending(n => n.Date);
                         break;
                 }
+            }
+            else
+            {
+                AddOrderByDescending(n => n.Date);
             }
         }
 
