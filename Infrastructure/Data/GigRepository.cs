@@ -21,6 +21,7 @@ namespace Infrastructure.Data
         {
             return await this._context.Gigs
                 .Include(g => g.Venue)
+                .Include(g => g.Band)
                 .ToListAsync();
         }
 
@@ -63,6 +64,17 @@ namespace Infrastructure.Data
 
         public async Task<IReadOnlyList<Venue>> GetVenuesAsync() {
             return await this._context.Venues
+                .OrderBy(v => v.Name)
+                .ToListAsync();
+        }
+
+        public async Task<Band> GetBandByIdAsync(int id) {
+            return await this._context.Bands
+                .FirstOrDefaultAsync(v => v.Id == id);
+        }
+
+        public async Task<IReadOnlyList<Band>> GetBandsAsync() {
+            return await this._context.Bands
                 .OrderBy(v => v.Name)
                 .ToListAsync();
         }

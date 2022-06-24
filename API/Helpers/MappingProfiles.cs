@@ -12,11 +12,11 @@ namespace API.Helpers
                 .ForMember(d => d.Entity, o => o.MapFrom(s => s.Entity.Name));
 
             CreateMap<Receivable, ReceivableDto>()
-                .ForMember(d => d.Entity, o => o.MapFrom(s => s.Entity.Name));
+                .ForMember(d => d.Entity, o => o.MapFrom(s => s.Entity.Company));
 
             CreateMap<Gig, GigDto>()
-                .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue.Name));
-
+                .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue.Name))
+                .ForMember(d => d.Band, o => o.MapFrom(s => s.Band.Name));
         }
     }
 }

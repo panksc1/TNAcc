@@ -15,6 +15,7 @@ namespace Infrastructure.Data
         public DbSet<Payable> Payables { get; set; }
         public DbSet<Receivable> Receivables { get; set; }
         public DbSet<Venue> Venues { get; set; }
+        public DbSet<Band> Bands { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

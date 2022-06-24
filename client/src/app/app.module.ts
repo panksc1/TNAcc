@@ -6,6 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { GigsModule } from './gigs/gigs.module';
+import { HomeModule } from './home/home.module';
+import { PayablesModule } from './payables/payables.module';
+import { ReceivablesModule } from './receivables/receivables.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { GigsModule } from './gigs/gigs.module';
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
-    GigsModule
+    GigsModule,
+    PayablesModule,
+    ReceivablesModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

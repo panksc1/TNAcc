@@ -1,0 +1,87 @@
+<div class="row" *ngIf="gig">
+    <h3>{{gig.band}} at {{gig.venue}} on {{gig.date | date}}</h3>
+    <div>
+        <h4>Payables</h4>
+        <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Amount Due</th>
+                <th scope="col">Amount Paid</th>
+                <th scope="col">Date Paid</th>
+                <th scope="col">Method</th>
+                <th scope="col">Notes</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payable of payables">
+                <td>{{payable.entity}}</td>
+                <td>{{payable.amountDue | currency}}</td>
+                <td>{{payable.amountPaid | currency}}</td>
+                <td *ngIf="payable.datePaid > minDate">{{payable.datePaid | date}}</td>
+                <td *ngIf="payable.datePaid <= minDate"></td>
+                <td>{{payable.method}}</td>
+                <td>{{payable.notes}}</td>
+                <td>
+                  <div class="btn-group">
+                    <button routerLink="/gigs/{{gig.id}}" type="button" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center" *ngIf="this.totalPayableCount > 0">
+            <app-pager
+                [pageSize]="payableParams.pageSize"
+                [totalCount]="totalPayableCount"
+                (pageChanged)="onPayablePageChanged($event)">
+            </app-pager>
+        </div>
+    </div>
+
+    <div>
+        <h4>Receivables</h4>
+        <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Company</th>
+                <th scope="col">Invoice No.</th>
+                <th scope="col">Amount Due</th>
+                <th scope="col">Amount Paid</th>
+                <th scope="col">Date Paid</th>
+                <th scope="col">Method</th>
+                <th scope="col">Notes</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let receivable of receivables">
+                <td>{{receivable.entity}}</td>
+                <td>{{receivable.invoiceNumber}}</td>
+                <td>{{receivable.amountDue | currency}}</td>
+                <td>{{receivable.amountPaid | currency}}</td>
+                <td *ngIf="receivable.dateReceived > minDate">{{receivable.dateReceived | date}}</td>
+                <td *ngIf="receivable.dateReceived <= minDate"></td>
+                <td>{{receivable.method}}</td>
+                <td>{{receivable.notes}}</td>
+                <td>
+                  <div class="btn-group">
+                    <button routerLink="/gigs/{{gig.id}}" type="button" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center" *ngIf="this.totalReceivableCount > 0">
+            <app-pager
+                [pageSize]="receivableParams.pageSize"
+                [totalCount]="totalReceivableCount"
+                (pageChanged)="onReceivablePageChanged($event)">
+            </app-pager>
+        </div>
+    </div>
+</div>
+

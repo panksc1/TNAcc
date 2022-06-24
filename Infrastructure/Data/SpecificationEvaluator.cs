@@ -34,7 +34,9 @@ namespace Infrastructure.Data
             // Takes our two include statements and aggregate them and passes into our query
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
 
-            return query;
+            var secondaryResult = spec.StringIncludes.Aggregate(query, (current, include) => current.Include(include));
+
+            return secondaryResult;
         }
 
     }

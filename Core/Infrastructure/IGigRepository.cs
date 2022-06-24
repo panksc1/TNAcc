@@ -15,5 +15,8 @@ namespace Core.Infrastructure
 
         Task<Venue> GetVenueByIdAsync(int id);
         Task<IReadOnlyList<Venue>> GetVenuesAsync();
+
+        Task<Band> GetBandByIdAsync(int id);
+        Task<IReadOnlyList<Band>> GetBandsAsync();
     }
 }

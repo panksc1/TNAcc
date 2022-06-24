@@ -10,19 +10,35 @@ namespace Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Bands",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true),
+                    ImageUrl = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bands", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Entities",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Company = table.Column<string>(type: "TEXT", nullable: true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Address = table.Column<string>(type: "TEXT", nullable: true),
-                    City = table.Column<string>(type: "TEXT", nullable: true),
-                    State = table.Column<string>(type: "TEXT", nullable: true),
-                    Zip = table.Column<string>(type: "TEXT", nullable: true),
-                    Phone = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true)
+                    Company = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true),
+                    Address = table.Column<string>(type: "TEXT", maxLength: 150, nullable: true),
+                    City = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true),
+                    State = table.Column<string>(type: "TEXT", maxLength: 35, nullable: true),
+                    Zip = table.Column<string>(type: "TEXT", maxLength: 18, nullable: true),
+                    Phone = table.Column<string>(type: "TEXT", maxLength: 35, nullable: true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 80, nullable: true),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
+                    Type = table.Column<string>(type: "TEXT", maxLength: 35, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,12 +51,12 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    At = table.Column<string>(type: "TEXT", nullable: true),
-                    Address = table.Column<string>(type: "TEXT", nullable: true),
-                    City = table.Column<string>(type: "TEXT", nullable: true),
-                    State = table.Column<string>(type: "TEXT", nullable: true),
-                    Zip = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true),
+                    At = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true),
+                    Address = table.Column<string>(type: "TEXT", maxLength: 150, nullable: true),
+                    City = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true),
+                    State = table.Column<string>(type: "TEXT", maxLength: 35, nullable: true),
+                    Zip = table.Column<string>(type: "TEXT", maxLength: 18, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,11 +72,18 @@ namespace Infrastructure.Data.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Pay = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     VenueId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Band = table.Column<string>(type: "TEXT", maxLength: 120, nullable: true)
+                    BandId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Gigs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Gigs_Bands_BandId",
+                        column: x => x.BandId,
+                        principalTable: "Bands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Gigs_Venues_VenueId",
                         column: x => x.VenueId,
@@ -78,6 +101,8 @@ namespace Infrastructure.Data.Migrations
                     AmountDue = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     AmountPaid = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     DatePaid = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Method = table.Column<string>(type: "TEXT", maxLength: 80, nullable: true),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
                     EntityId = table.Column<int>(type: "INTEGER", nullable: false),
                     GigId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -107,6 +132,9 @@ namespace Infrastructure.Data.Migrations
                     AmountDue = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     AmountPaid = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     DateReceived = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    InvoiceNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    Method = table.Column<string>(type: "TEXT", maxLength: 80, nullable: true),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
                     EntityId = table.Column<int>(type: "INTEGER", nullable: false),
                     GigId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -126,6 +154,11 @@ namespace Infrastructure.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Gigs_BandId",
+                table: "Gigs",
+                column: "BandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Gigs_VenueId",
@@ -166,6 +199,9 @@ namespace Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Gigs");
+
+            migrationBuilder.DropTable(
+                name: "Bands");
 
             migrationBuilder.DropTable(
                 name: "Venues");

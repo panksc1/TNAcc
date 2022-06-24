@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IBand } from '../shared/models/band';
 import { IGig } from '../shared/models/gig';
 import { GigParams } from '../shared/models/gigParams';
+import { PaymentParams } from '../shared/models/paymentParams';
 import { IVenue } from '../shared/models/venue';
 import { GigsService } from './gigs.service';
 
@@ -13,9 +14,11 @@ import { GigsService } from './gigs.service';
 export class GigsComponent implements OnInit {
   @ViewChild('search', { static: true }) searchTerm: ElementRef;
   gigs: IGig[];
-  bands: string[];
+  bands: IBand[];
   venues: IVenue[];
   gigParams = new GigParams();
+  payableParams = new PaymentParams();
+  receivableParams = new PaymentParams();
   totalCount: number;
   sortOptions = [
     { name: 'Date Descending', value: 'dateDesc' },
@@ -60,7 +63,7 @@ export class GigsComponent implements OnInit {
 
   getGigs() {
     this.gigsService.getGigs(this.gigParams).subscribe(response => {
-      this.gigs = response.data;
+      this.gigs = (<IGig[]>response.data);
       this.gigParams.pageNumber = response.pageIndex;
       this.gigParams.pageSize = response.pageSize;
       this.totalCount = response.count
@@ -70,8 +73,8 @@ export class GigsComponent implements OnInit {
   }
 
   getBands() {
-    this.gigsService.getGigs(new GigParams()).subscribe(response => {
-      this.bands = ['All', ...new Set(response.data.map(item => item.band))];
+    this.gigsService.getBands().subscribe(response => {
+      this.bands = [{id: 0, name: 'All', imageUrl: ''}, ...response];
     })
   }
 
@@ -83,8 +86,8 @@ export class GigsComponent implements OnInit {
     });
   }
 
-  onBandSelected(band: string) {
-    this.gigParams.band = band;
+  onBandSelected(bandId: number) {
+    this.gigParams.bandId = bandId;
     this.gigParams.pageNumber = 1;
     this.getGigs();
   }

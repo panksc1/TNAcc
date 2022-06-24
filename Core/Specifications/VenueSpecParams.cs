@@ -2,9 +2,9 @@ namespace Core.Specifications
 {
     public class VenueSpecParams
     {
-        private const int MaxPageSize = 50;
+        private const int MaxPageSize = Int32.MaxValue;
         public int PageIndex { get; set; } = 1;
-        private int _pageSize = 10;
+        private int _pageSize = MaxPageSize;
         public int PageSize
         {
             get => this._pageSize;

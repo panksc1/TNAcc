@@ -8,14 +8,15 @@ namespace Core.Specifications
             : base(x =>
                 (string.IsNullOrEmpty(gigParams.Search) ||
                 x.Venue.Name.ToLower().Contains(gigParams.Search) ||
-                x.Band.ToLower().Contains(gigParams.Search)) &&
+                x.Band.Name.ToLower().Contains(gigParams.Search)) &&
                 (!gigParams.VenueId.HasValue || x.VenueId == gigParams.VenueId) &&
+                (!gigParams.BandId.HasValue || x.BandId == gigParams.BandId) &&
                 (!gigParams.Month.HasValue || x.Date.Month == gigParams.Month) &&
-                (!gigParams.Year.HasValue || x.Date.Year == gigParams.Year) && 
-                (string.IsNullOrEmpty(gigParams.Band) || x.Band.ToLower().Contains(gigParams.Band.ToLower()))
+                (!gigParams.Year.HasValue || x.Date.Year == gigParams.Year)
             )
         {
             AddInclude(x => x.Venue);
+            AddInclude(x => x.Band);
             ApplyPaging(gigParams.PageSize * (gigParams.PageIndex - 1), gigParams.PageSize);
 
             if (!string.IsNullOrEmpty(gigParams.Sort))
@@ -38,7 +39,7 @@ namespace Core.Specifications
                         AddOrderBy(p => p.Venue.Name);
                         break;
                     case "band":
-                        AddOrderBy(p => p.Band);
+                        AddOrderBy(p => p.Band.Name);
                         break;
                     default:
                         AddOrderByDescending(n => n.Date);
@@ -57,6 +58,7 @@ namespace Core.Specifications
             : base(x => x.Id == id)
         {
             AddInclude(x => x.Venue);
+            AddInclude(x => x.Band);
         }
     }
 }

@@ -38,6 +38,21 @@ namespace Infrastructure.Data
                     await context.SaveChangesAsync();
                 }
 
+                if (!context.Bands.Any())
+                {
+                    var bandsData = File.ReadAllText("../Infrastructure/Data/SeedData/bands.json");
+
+                    var bands = JsonSerializer.Deserialize<List<Band>>(bandsData);
+
+                    foreach (var item in bands)
+                    {
+                        context.Bands.Add(item);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+
+
                 if (!context.Gigs.Any())
                 {
                     var gigsData = File.ReadAllText("../Infrastructure/Data/SeedData/gigs.json");
@@ -47,6 +62,34 @@ namespace Infrastructure.Data
                     foreach (var item in gigs)
                     {
                         context.Gigs.Add(item);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+
+                if (!context.Payables.Any())
+                {
+                    var payablesData = File.ReadAllText("../Infrastructure/Data/SeedData/payables.json");
+
+                    var payables = JsonSerializer.Deserialize<List<Payable>>(payablesData);
+
+                    foreach (var item in payables)
+                    {
+                        context.Payables.Add(item);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+
+                if (!context.Receivables.Any())
+                {
+                    var receivablesData = File.ReadAllText("../Infrastructure/Data/SeedData/receivables.json");
+
+                    var receivables = JsonSerializer.Deserialize<List<Receivable>>(receivablesData);
+
+                    foreach (var item in receivables)
+                    {
+                        context.Receivables.Add(item);
                     }
 
                     await context.SaveChangesAsync();

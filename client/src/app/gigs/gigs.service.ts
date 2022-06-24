@@ -1,8 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
+import { IBand } from '../shared/models/band';
+import { IGig } from '../shared/models/gig';
 import { GigParams } from '../shared/models/gigParams';
 import { IPagination } from '../shared/models/pagination';
+import { PaymentParams } from '../shared/models/paymentParams';
+import { IReceivable } from '../shared/models/receivable';
 import { IVenue } from '../shared/models/venue';
 
 @Injectable({
@@ -28,8 +32,8 @@ export class GigsService {
       params = params.append('year', gigParams.year.toString());
     }
 
-    if(gigParams.band && gigParams.band !== 'All') {
-      params = params.append('band', gigParams.band);
+    if(gigParams.bandId != 0) {
+      params = params.append('bandId', gigParams.bandId.toString());
     }
 
     if(gigParams.search) {
@@ -40,7 +44,6 @@ export class GigsService {
     params = params.append('pageIndex', gigParams.pageNumber.toString());
     params = params.append('pageIndex', gigParams.pageSize.toString());
     
-    console.log(params);
     return this.http.get<IPagination>(this.baseUrl + 'gigs', {observe: 'response', params})
       .pipe (
         map(response => {
@@ -49,7 +52,48 @@ export class GigsService {
       );
   }
 
+  getPayables(paymentParams: PaymentParams) {
+    let params = new HttpParams();
+
+    if(paymentParams.gigId != 0) {
+      params = params.append('gigId', paymentParams.gigId.toString());
+    }
+
+    params = params.append('pageIndex', paymentParams.pageNumber.toString());
+    params = params.append('pageIndex', paymentParams.pageSize.toString());
+    return this.http.get<IPagination>(this.baseUrl + 'payables', {observe: 'response', params})
+      .pipe (
+        map(response => {
+          return response.body;
+        })
+      );
+  }
+
+  getReceivables(paymentParams: PaymentParams) {
+    let params = new HttpParams();
+
+    if(paymentParams.gigId != 0) {
+      params = params.append('gigId', paymentParams.gigId.toString());
+    }
+    params = params.append('pageIndex', paymentParams.pageNumber.toString());
+    params = params.append('pageIndex', paymentParams.pageSize.toString());
+    return this.http.get<IPagination>(this.baseUrl + 'receivables', {observe: 'response', params})
+      .pipe (
+        map(response => {
+          return response.body;
+        })
+      );
+  }
+
+  getGig(id: number) {
+    return this.http.get<IGig>(this.baseUrl + 'gigs/' + id);
+  }
+
   getVenues() {
-    return this.http.get<IVenue[]>(this.baseUrl + 'gigs/venues');
+    return this.http.get<IVenue[]>(this.baseUrl + 'venues');
+  }
+
+  getBands() {
+    return this.http.get<IBand[]>(this.baseUrl + 'bands');
   }
 }

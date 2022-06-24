@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Config
             builder.Property(g => g.Date).HasColumnType("datetime2");
             builder.Property(g => g.Pay).HasColumnType("decimal(18,2)");
             builder.HasOne(g => g.Venue).WithMany().HasForeignKey(g => g.VenueId);
-            builder.Property(g => g.Band).HasMaxLength(120);
+            builder.HasOne(g => g.Band).WithMany().HasForeignKey(g => g.BandId);
         }
     }
 }

@@ -17,6 +17,24 @@ namespace Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
 
+            modelBuilder.Entity("Core.Entities.Band", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(120)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bands");
+                });
+
             modelBuilder.Entity("Core.Entities.Entity", b =>
                 {
                     b.Property<int>("Id")
@@ -24,27 +42,42 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("City")
+                        .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Company")
+                        .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
+                        .HasMaxLength(80)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(120)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Phone")
+                        .HasMaxLength(35)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("State")
+                        .HasMaxLength(35)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .HasMaxLength(35)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Zip")
+                        .HasMaxLength(18)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -58,12 +91,14 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Band")
-                        .HasMaxLength(120)
-                        .HasColumnType("TEXT");
+                    b.Property<int>("BandId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
 
                     b.Property<double>("Pay")
                         .HasColumnType("decimal(18,2)");
@@ -72,6 +107,8 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BandId");
 
                     b.HasIndex("VenueId");
 
@@ -98,6 +135,13 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("GigId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Method")
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -129,6 +173,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("GigId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Method")
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EntityId");
@@ -145,21 +199,27 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("At")
+                        .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("City")
+                        .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("State")
+                        .HasMaxLength(35)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Zip")
+                        .HasMaxLength(18)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -169,11 +229,19 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Gig", b =>
                 {
+                    b.HasOne("Core.Entities.Band", "Band")
+                        .WithMany()
+                        .HasForeignKey("BandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.Venue", "Venue")
                         .WithMany()
                         .HasForeignKey("VenueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Band");
 
                     b.Navigation("Venue");
                 });
