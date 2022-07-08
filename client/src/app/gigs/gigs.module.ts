@@ -4,8 +4,7 @@ import { GigsComponent } from './gigs.component';
 import { SharedModule } from '../shared/shared.module';
 import { GigDetailsComponent } from './gig-details/gig-details.component';
 import { RouterModule } from '@angular/router';
-
-
+import { GigsRoutingModule } from './gigs-routing.module';
 
 @NgModule({
   declarations: [
@@ -15,10 +14,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
-  ],
-  exports: [
-    GigsComponent
+    GigsRoutingModule
   ]
 })
 export class GigsModule { }

@@ -78,6 +78,7 @@ export class ReceivablesComponent implements OnInit {
   getEntities() {
     this.receivablesService.getEntities().subscribe(response => {
       this.entities = [{ id: 0, company: '', name: 'All', address: '', city: '', state: '', zip: '', phone: '', email: '', notes: '', type: '' }, ...response];
+      this.entities = this.entities.filter(x => x.type !== 'Musician')
     })
   }
 

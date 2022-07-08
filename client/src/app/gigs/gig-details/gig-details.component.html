@@ -1,7 +1,25 @@
-<div class="row" *ngIf="gig">
-    <h3>{{gig.band}} at {{gig.venue}} on {{gig.date | date}}</h3>
+<div class="row ms-4" *ngIf="gig">
+    <!-- <div>
+      <form action="updateGig">
+        <label for="datePlayed">Date: </label>
+        <input type="date" id="datePlayed" name="datePlayed">
+        <input type="submit" value="Update">
+      </form>
+    </div> -->
+
+
+    <h3>{{gig.date | date}}</h3>
     <div>
         <h4>Payables</h4>
+        <div class="d-flex justify-content-start align-items-center pb-2">
+          <div class="mt-2 paid">
+            <b>Paid: </b>{{this.totalPaid | currency}}
+          </div>
+
+          <div class="ms-4 mt-2 unpaid">
+            <b>Unpaid: </b>{{this.totalUnpaid | currency}}
+          </div>
+        </div>
         <table class="table table-sm">
             <thead>
               <tr>
@@ -25,8 +43,8 @@
                 <td>{{payable.notes}}</td>
                 <td>
                   <div class="btn-group">
-                    <button routerLink="/gigs/{{gig.id}}" type="button" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                    <button routerLink="/payables/{{payable.id}}" type="button" class="btn btn-sm btn-primary me-2">Edit</button>
+                    <button type="button" class="btn btn-sm btn-primary">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -43,6 +61,15 @@
 
     <div>
         <h4>Receivables</h4>
+        <div class="d-flex justify-content-start align-items-center pb-2">
+          <div class="mt-2 paid">
+            <b>Received: </b>{{this.totalReceived | currency}}
+          </div>
+
+          <div class="ms-4 mt-2 unpaid">
+            <b>Pending: </b>{{this.totalUnreceived | currency}}
+          </div>
+        </div>
         <table class="table table-sm">
             <thead>
               <tr>
@@ -68,8 +95,8 @@
                 <td>{{receivable.notes}}</td>
                 <td>
                   <div class="btn-group">
-                    <button routerLink="/gigs/{{gig.id}}" type="button" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                    <button routerLink="/receivables/{{receivable.id}}" type="button" class="btn btn-sm btn-primary me-2">Edit</button>
+                    <button type="button" class="btn btn-sm btn-primary">Delete</button>
                   </div>
                 </td>
               </tr>

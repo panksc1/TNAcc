@@ -46,5 +46,47 @@ namespace API.Controllers
 
             return Ok(band);
         }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Band>> UpdateBandAsync([FromBody]Band band)
+        {
+            if (string.IsNullOrWhiteSpace(band.Name))
+            {
+                return BadRequest(new ApiResponse(400));
+            }
+
+            var updated = await this._bandsRepo.UpdateEntityAsync(band);
+            if (updated == null) return NotFound(new ApiResponse(404));
+            return updated;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Band>> CreateBandAsync([FromBody]Band band)
+        {
+            if (string.IsNullOrWhiteSpace(band.Name))
+            {
+                return BadRequest(new ApiResponse(400));
+            }
+
+            var created = await this._bandsRepo.AddEntityAsync(band);
+            if (created == null) return NotFound(new ApiResponse(404));
+            return created;
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Band>> DeleteBandAsync(int id)
+        {
+            var deleted = await this._bandsRepo.DeleteEntityAsync(id);
+            if(deleted == null) return NotFound(new ApiResponse(404));
+            return deleted;
+        }
     }
 }

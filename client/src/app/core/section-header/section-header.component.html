@@ -1,0 +1,16 @@
+<!--Check if we have anything in the breadcrumb observable
+use | async subscribes and unsubscribes to the observable automatically-->
+<ng-container *ngIf="(breadcrumb$ | async) as breadcrumbs">
+    <section *ngIf="breadcrumbs.length > 0 && breadcrumbs[breadcrumbs.length - 1].label !== 'Home'" class="py-5" style="margin-top: 70px;">
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-9">
+                    <h1>{{breadcrumbs.length > 0 && breadcrumbs[breadcrumbs.length-1].label}}</h1>
+                </div>
+                <div class="col-3">
+                    <xng-breadcrumb class="text-muted"></xng-breadcrumb>
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-container>

@@ -12,7 +12,7 @@ import { GigsService } from './gigs.service';
   styleUrls: ['./gigs.component.scss']
 })
 export class GigsComponent implements OnInit {
-  @ViewChild('search', { static: true }) searchTerm: ElementRef;
+  @ViewChild('search', { static: false }) searchTerm: ElementRef;
   gigs: IGig[];
   bands: IBand[];
   venues: IVenue[];

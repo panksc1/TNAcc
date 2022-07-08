@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { IEntity } from '../shared/models/entity';
 import { IPagination } from '../shared/models/pagination';
+import { IPayable } from '../shared/models/payable';
 import { PaymentParams } from '../shared/models/paymentParams';
 
 @Injectable({
@@ -49,6 +50,10 @@ export class PayablesService {
           return response.body;
         })
       );
+  }
+
+  getPayable(id: number) {
+    return this.http.get<IPayable>(this.baseUrl + 'payables/' + id);
   }
 
   getEntities() {

@@ -4,6 +4,7 @@ import { map } from 'rxjs';
 import { IEntity } from '../shared/models/entity';
 import { IPagination } from '../shared/models/pagination';
 import { PaymentParams } from '../shared/models/paymentParams';
+import { IReceivable } from '../shared/models/receivable';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,10 @@ export class ReceivablesService {
           return response.body;
         })
       );
+  }
+
+  getReceivable(id: number) {
+    return this.http.get<IReceivable>(this.baseUrl + 'receivables/' + id);
   }
 
   getEntities() {

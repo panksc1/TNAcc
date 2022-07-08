@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+.xng-breadcrumb-root {
+    padding: 8px 8px;
+    display: inline;
+    border-radius: 0;
+}
+
+label.xng-breadcrumb-trail {
+    margin-bottom: 0;
+    color: #693C5E;
+}
+
+.xng-breadcrumb-separator {
+    padding: 0 0;
+}
+
+.no-padding {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.align-right {
+    text-align: right;
+}

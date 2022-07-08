@@ -15,7 +15,7 @@ namespace API.Controllers
         [HttpGet("notfound")]
         public ActionResult GetNotFoundRequest()
         {
-            var thing = this._context.Gigs.Find(42);
+            var thing = this._context.Gigs.Find(42222);
 
             if (thing == null)
             {
@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpGet("servererror")]
         public ActionResult GetServerError()
         {
-            var thing = this._context.Gigs.Find(42);
+            var thing = this._context.Entities.Find(108);
 
             // Generates an exception because thing is null
             var thingToReturn = thing.ToString();

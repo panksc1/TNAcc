@@ -47,5 +47,47 @@ namespace API.Controllers
 
             return Ok(venue);
         }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Venue>> UpdateVenueAsync([FromBody]Venue venue)
+        {
+            if (string.IsNullOrWhiteSpace(venue.Name))
+            {
+                return BadRequest(new ApiResponse(400));
+            }
+
+            var updated = await this._venuesRepo.UpdateEntityAsync(venue);
+            if (updated == null) return NotFound(new ApiResponse(404));
+            return updated;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Venue>> CreateVenueAsync([FromBody]Venue venue)
+        {
+            if (string.IsNullOrWhiteSpace(venue.Name))
+            {
+                return BadRequest(new ApiResponse(400));
+            }
+
+            var created = await this._venuesRepo.AddEntityAsync(venue);
+            if (created == null) return NotFound(new ApiResponse(404));
+            return created;
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Venue>> DeleteVenueAsync(int id)
+        {
+            var deleted = await this._venuesRepo.DeleteEntityAsync(id);
+            if(deleted == null) return NotFound(new ApiResponse(404));
+            return deleted;
+        }
     }
 }

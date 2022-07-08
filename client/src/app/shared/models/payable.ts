@@ -7,6 +7,7 @@ export interface IPayable {
     datePaid: Date;
     method: string;
     notes: string;
+    entityId: number;
     entity: string;
     gig: IGig;
 }

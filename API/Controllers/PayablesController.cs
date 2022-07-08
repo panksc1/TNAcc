@@ -52,12 +52,69 @@ namespace API.Controllers
             return this._mapper.Map<Payable, PayableDto>(payable);
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult> AddPayableAsync()
-        // {
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<PayableDto>> UpdatePayableAsync([FromBody]PayableDto payableDto)
+        {
+            if (!payableDto.IsValid())
+            {
+                return BadRequest(new ApiResponse(400));
+            }
 
-        // }
+            var payable = new Payable
+            {
+                Id = payableDto.Id,
+                AmountDue = payableDto.AmountDue,
+                AmountPaid = payableDto.AmountPaid,
+                DatePaid = payableDto.DatePaid,
+                Method = payableDto.Method,
+                Notes = payableDto.Notes,
+                EntityId = payableDto.EntityId,
+                GigId = payableDto.Gig.Id
+            };
 
-        
+            var updated = await this._payablesRepo.UpdateEntityAsync(payable);
+            if (updated == null) return NotFound(new ApiResponse(404));
+            return this._mapper.Map<Payable, PayableDto>(updated);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<PayableDto>> CreatePayableAsync([FromBody]PayableDto payableDto)
+        {
+            if (!payableDto.IsValid())
+            {
+                return BadRequest(new ApiResponse(400));
+            }
+
+            var payable = new Payable
+            {
+                AmountDue = payableDto.AmountDue,
+                AmountPaid = payableDto.AmountPaid,
+                DatePaid = payableDto.DatePaid,
+                Method = payableDto.Method,
+                Notes = payableDto.Notes,
+                EntityId = payableDto.EntityId,
+                GigId = payableDto.Gig.Id
+            };
+
+            var created = await this._payablesRepo.AddEntityAsync(payable);
+            if (created == null) return NotFound(new ApiResponse(404));
+            return this._mapper.Map<Payable, PayableDto>(created);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<PayableDto>> DeletePayableAsync(int id)
+        {
+            var deleted = await this._payablesRepo.DeleteEntityAsync(id);
+            if(deleted == null) return NotFound(new ApiResponse(404));
+            return this._mapper.Map<Payable, PayableDto>(deleted);
+        }
     }
 }

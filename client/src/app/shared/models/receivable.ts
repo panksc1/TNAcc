@@ -8,6 +8,7 @@ export interface IReceivable {
     invoiceNumber: string;
     method: string;
     notes: string;
+    entityId: number;
     entity: string;
     gig: IGig;
 }
